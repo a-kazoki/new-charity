@@ -1,0 +1,515 @@
+<section class="content-header">
+    <h1>
+        My profile
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="index.html"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">My profile</li>
+    </ol>
+</section>
+    <!-- Main content -->
+    <section class="content" style="min-height: 500px">
+      <div class="row">
+        <div class="col-md-3">
+          <!-- Profile Image -->
+          <div class="box box-primary">
+            <div class="box-body box-profile">
+              <img class="profile-user-img img-responsive img-circle" ng-src={{upic}} alt="User profile picture">
+              <h3 class="profile-username text-center">{{uname}}</h3>
+                <p class="text-muted text-center" ng-if= utrusted><i class="fa fa-certificate" style="color: gold" aria-hidden="true"></i>&nbsp;Trusted</p>
+              <ul class="list-group list-group-unbordered">
+                <li class="list-group-item" data-toggle="modal" data-target="#mefollowingusers" style="cursor: pointer">
+                  <b>Following</b> <a class="pull-right">{{mefollowing.length}}</a>
+                </li>
+                <li class="list-group-item" data-toggle="modal" data-target="#followingmeusers" style="cursor: pointer">
+                  <b>Followers</b> <a class="pull-right">{{followingme.length}}</a>
+                </li>
+              </ul>
+              <a href="" class="btn btn-default btn-block" data-toggle="modal" data-target="#addcase"><b>Upload cause</b></a>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-9">
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                <li class="active" role="presentation"><a href="" data-target="#casetap" aria-controls="cases" role="tab" data-toggle="tab">My Cases</a></li>
+                <li role="presentation"><a href="" data-target="#settingstap" aria-controls="poor" role="tab" data-toggle="tab">My Settings</a></li>
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="active tab-pane" id="casetap"> 
+                    <div class="nav-tabs-custom" style="background: transparent">
+            <!-- Tabs within a box -->
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="" data-target="#ask" data-toggle="tab">Asked</a></li>
+              <li><a href="" data-target="#help" data-toggle="tab">Helped</a></li>
+            </ul>
+            <div class="tab-content no-padding causes">
+              <!-- Morris chart - Sales -->
+              <div class="row text-center tab-pane active" id="ask" style="position: relative; ">
+                <h1>Cases You <span style="color:#f39c12">Created</span></h1>
+               <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="case in myCases|limitTo:3">
+                <div class="info-box bg-aqua">
+                  <span class="info-box-icon"><img ng-src={{case.IMG}} class="img-responsive" style="height: 100%"></span>
+
+                  <div class="info-box-content">
+                    <span class="info-box-text">{{case.CaseName}}</span>
+                    <span class="info-box-number">{{case.Amount}}</span>
+                      <span class="progress-description">
+                        {{case.CaseDescription}}
+                          <br>
+                          {{case.EndDate}}
+                      </span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+                  </div>
+               <div>
+                   <br>
+                   <button class="btn btn-default" data-toggle="modal" data-target="#allmycases">More causes</button>
+                    <div class="modal fade" id="allmycases" tabindex="-1" role="dialog">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content" style="background: rgba(255,255,255,0.7)">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">All My Cases</h4>
+                          </div>
+                          <div class="modal-body">
+                          <!-- Nav tabs -->
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active" style="margin: 10px"><button class="btn btn-default " data-target="#myactivecases" aria-controls="myactivecases" role="tab" data-toggle="tab">Ongoing Cases</button></li>
+                                <li role="presentation" style="margin: 10px"><button class="btn btn-default " data-target="#myhistorycases" aria-controls="myhistorycases" role="tab" data-toggle="tab">My Completed Cases</button></li>
+                            </ul>
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="myactivecases">
+                                    <div ng-repeat="case in myCases" style="background: rgba(0,0,0,0.7)" ng-if= "case.status === 1">
+                                        <div class="info-box bg-aqua">
+                                          <span class="info-box-icon"><img ng-src={{case.IMG}} class="img-responsive" style="height: 100%"></span>
+                                          <div class="info-box-content">
+                                            <span class="info-box-text">Name: {{case.CaseName}}</span>
+                                            <span class="info-box-number">Target Amount: {{case.Amount}}</span>
+                                              <span class="progress-description">
+                                                Description: {{case.CaseDescription}}
+                                                  <br>
+                                                  End Date: {{case.EndDate}}
+                                                  <br>
+                                                  Number of Joined: {{case.Numberofjoins}}
+                                              </span>
+                                          </div>
+                                          <!-- /.info-box-content -->
+                                        </div>
+                                        <!-- /.info-box -->
+                                        <button type="button" style="margin-bottom: 10px" class="btn btn-info" ng-click="selecteditcase(case.CauseID)">Edit</button>
+                                        <button type="button" style="margin-bottom: 10px" class="btn btn-success" ng-click="selectcompletecase(case.CauseID)">Completed</button>
+                                        <button type="button" style="margin-bottom: 10px" class="btn btn-danger" ng-click="selectdeletecase(case.CauseID)">Delete</button>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="myhistorycases">
+                                    <div ng-repeat="case in myCases" style="background: rgba(0,0,0,0.7)" ng-if= "case.status === 2">
+                                        <div class="info-box bg-aqua">
+                                          <span class="info-box-icon"><img ng-src={{case.IMG}} class="img-responsive" style="height: 100%"></span>
+                                          <div class="info-box-content">
+                                            <span class="info-box-text">Name: {{case.CaseName}}</span>
+                                            <span class="info-box-number">Target Amount: {{case.Amount}}</span>
+                                              <span class="progress-description">
+                                                Description: {{case.CaseDescription}}
+                                                  <br>
+                                                  End Date: {{case.EndDate}}
+                                                  <br>
+                                                  Number of Joined: {{case.Numberofjoins}}
+                                              </span>
+                                          </div>
+                                          <!-- /.info-box-content -->
+                                        </div>
+                                        <!-- /.info-box -->
+                                        <p class="lead" style="color: #fff; padding-bottom: 5px">This Case Is Complete</p>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                          </div>
+                        </div><!-- /.modal-content -->
+                      </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+                  </div>
+              </div>
+              <div class="text-center tab-pane" id="help" style="position: relative; ">
+                <h1>Cases You <span style="color:#f39c12">Joined</span></h1>
+                 <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="fcase in followCases|limitTo:3">
+                <div class="info-box bg-aqua">
+                  <span class="info-box-icon"><img ng-src={{fcase.IMG}} class="img-responsive" style="height: 100%"></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">{{fcase.CaseName}}</span>
+                    <span class="info-box-number">{{fcase.Amount}}</span>
+                    <span class="progress-description">
+                      {{fcase.CaseDescription}}
+                        <br>
+                        {{fcase.EndDate}}
+                    </span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+               </div>
+                <button class="btn btn-default" data-toggle="modal" data-target=".allfcases">More cause</button>
+                  <div class="modal fade allfcases" tabindex="-1" role="dialog">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content" style="background: rgba(255,255,255,0.7)">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">All My Followed Cases</h4>
+                          </div>
+                          <div class="modal-body">
+                            <div ng-repeat="fcase in followCases" style="background: rgba(0,0,0,0.7)">
+                                <div class="info-box bg-aqua">
+                                  <span class="info-box-icon"><img ng-src={{fcase.IMG}} class="img-responsive" style="height: 100%"></span>
+                                  <div class="info-box-content">
+                                    <span class="info-box-text">Name: {{fcase.CaseName}}</span>
+                                    <span class="info-box-number">Target Amount: {{fcase.Amount}}</span>
+                                      <span class="progress-description">
+                                        Description: {{fcase.CaseDescription}}
+                                          <br>
+                                          End Date: {{fcase.EndDate}}
+                                          <br>
+                                          Number of Joined: {{fcase.Numberofjoins}}
+                                      </span>
+                                  </div>
+                                  <!-- /.info-box-content -->
+                                </div>
+                                <!-- /.info-box -->
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                          </div>
+                        </div><!-- /.modal-content -->
+                      </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+              </div>
+            </div>
+          </div>
+          <!-- /.nav-tabs-custom -->
+                </div>
+                <div class="tab-pane" id="settingstap">
+                    <div class="form-group">
+                        <div class="text-center">
+                            <div class="userimage">
+                                <img ng-src={{upic}} class="avatar img-circle img-responsive" alt="avatar" style="display: block; margin: 0 auto; width: 200px">
+                                <input style="display: inline-block" type="file" name="img" ng-model="newimage" accept="image/*">
+                                <button style="display: inline-block" ng-click="updateimage()" class="btn btn-primary">Submit New Image</button>
+                            </div>
+                            <br>
+                            <br>
+                            <p class="control-label"><span class="lead">Name: </span>{{uname}}</p>
+                            <br>
+                            <p class="control-label"><span class="lead">Email: </span>{{uemail}}</p>
+                            <br>
+                            <p class="control-label"><span class="lead">Mobile number: </span>{{umobilnumber}}</p>
+                            <br>
+                            <p class="control-label"><span class="lead">Preference: </span>{{ucategory}}</p>
+                            <br>
+                            <p class="control-label"><span class="lead">Location: </span>{{uaddress}}</p>
+                            <br>
+                            <p class="control-label"><span class="lead">Gender: </span>{{ugender}}</p>
+                            <br><br>
+                            <a href="" data-toggle="modal" data-target="#updatedata">Edit my profile<i class="fa fa-edit " aria-hidden="true"></i></a>
+
+                        </div>
+                    </div>
+                </div>
+              <!-- /.tab-pane -->
+            </div>
+            <!-- /.tab-content -->
+          </div>
+          <!-- /.nav-tabs-custom -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+
+
+<!-- update profile Modal -->
+<div style="background-color: rgba(255, 255, 255, 0.6)" class="modal fade" id="updatedata" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 style="color: #fff" class="modal-title" id="myModalLabel">Update Profile Information</h4>
+            </div>
+            <div>
+                <form role="form" name="updatedataform" ng-submit="updatedata()"><!--Start Contact Form-->
+                    <div class="col-md-12">
+                        <div class="form-group">
+                          <input type="text" class="form-control input-lg" placeholder="Name" ng-model="newname">
+                        </div>
+                        <div class="form-group">
+                          <input type="password" class="form-control input-lg" placeholder="Password" ng-model="newpass" required>
+                        </div>
+                        <div class="form-group">
+                          <input type="text" class="form-control input-lg" placeholder="Email" ng-model="newemail">
+                            <div ng-show="uemail !== newemail">If You Change Your Email You Will RE-Verify The New One</div>
+                        </div>
+                        <div class="form-group">
+                          <input type="text" class="form-control input-lg" placeholder="Mobile Number" ng-model="newmobile">
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control input-lg" ng-model="newcat" required>
+                                <option value="" disabled ng-selecte>Prefrence Category</option>
+                                <option ng-repeat="case in allcases" ng-value=case.CategoryID>{{case.CategoryName}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control input-lg" ng-model="newcountry" ng-change="getcity()" required>
+                                <option value="" disabled ng-selecte>Country</option>
+                                <option ng-repeat="country in allcountries" ng-value=country.CountryID>{{country.Countryname}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control input-lg" ng-model="newcity" required>
+                                <option value="" disabled ng-selecte>City</option>
+                                <option ng-repeat="city in allcities" ng-value=city.CityID>{{city.CityName}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control input-lg" ng-model="newgender">
+                                <option value="" ng-selecte>Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- update profile error modal -->
+<div style="background-color: rgba(255, 255, 255, 0.5)" class="modal fade" id="updatedataerror" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 style="color: #fff" class="modal-title" id="myModalLabel">Sorry</h3>
+            </div>
+            <div class="modal-body">
+                <p style="color: #fff" class="lead">{{updatereply.ErrorMessage}}</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+             
+<!-- add case Modal -->
+<div style="background-color: rgba(255, 255, 255, 0.8)" class="modal fade" id="addcase" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 style="color: #fff" class="modal-title" id="myModalLabel">Add Case</h4>
+            </div>
+            <div>
+                <form role="form" name="addcaseform" ng-submit="addcase()"><!--Start Contact Form-->
+                    <div class="col-md-12">
+                        <div class="form-group">
+                          <input type="text" class="form-control input-lg" placeholder="Case Name" ng-model="casename" required>
+                        </div>
+                        <div class="form-group">
+                          <input type="number" class="form-control input-lg" placeholder="Case Amount" ng-model="caseamount" required>
+                        </div>
+                        <div class="form-group">
+                          <input type="date" class="form-control input-lg" ng-model="casedate" required>
+                        </div>
+                        <div class="form-group">
+                          <input type="text" class="form-control input-lg" placeholder="Case Description" ng-model="casedes" required>
+                        </div>
+                        <div class="form-group">
+                          <input type="text" class="form-control input-lg" placeholder="Image" ng-model="caseimg" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Case Category</label><br>
+                            <select class="form-control input-lg" ng-model="casecat" required>
+                                <option value="" disabled ng-selecte>select category</option>
+                                <option ng-repeat="case in allcases" ng-value=case.CategoryID>{{case.CategoryName}}</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- edit case Modal -->
+<div style="background-color: rgba(255, 255, 255, 0.8)" class="modal fade" id="editcase" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 style="color: #fff" class="modal-title" id="myModalLabel">Edit Case</h4>
+            </div>
+            <div>
+                <form role="form" name="editcaseform" ng-submit="editcase()"><!--Start Contact Form-->
+                    <div class="col-md-12">
+                        <div class="form-group">
+                          <input type="text" class="form-control input-lg" placeholder="Case Name" ng-model="newcasename" required>
+                        </div>
+                        <div class="form-group">
+                          <input type="text" class="form-control input-lg" placeholder="Case Amount" ng-model="newcaseamount" required>
+                        </div>
+                        <div class="form-group">
+                          <input type="date" class="form-control input-lg" ng-model="newcasedate" required>
+                        </div>
+                        <div class="form-group">
+                          <input type="text" class="form-control input-lg" placeholder="Case Description" ng-model="newcasedes" required>
+                        </div>
+                        <div class="form-group">
+                          <input type="text" class="form-control input-lg" placeholder="Image" ng-model="newcaseimg" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Case Category</label><br>
+                            <select class="form-control input-lg" ng-model="newcasecat" required>
+                                <option value="" disabled ng-selecte>Select Category</option>
+                                <option ng-repeat="case in allcases" ng-value=case.CategoryID>{{case.CategoryName}}</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- complete case modal -->
+<div style="background-color: rgba(255, 255, 255, 0.5)" class="modal fade" id="completecase" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 style="color: #fff" class="modal-title" id="myModalLabel">Complete</h3>
+            </div>
+            <div class="modal-body">
+                <p style="color: #080" class="lead">Is Thiss Case Complete?</p>
+                <button type="button" style="margin-bottom: 10px" class="btn btn-success" ng-click="completecase()">Complete</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- delete case modal -->
+<div style="background-color: rgba(255, 255, 255, 0.5)" class="modal fade" id="deletecase" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 style="color: #fff" class="modal-title" id="myModalLabel">Delete</h3>
+            </div>
+            <div class="modal-body">
+                <p style="color: #f00" class="lead">Are You Sure You Want To Delete This Case</p>
+                <button type="button" style="margin-bottom: 10px" class="btn btn-danger" ng-click="deletecase()">Delete</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- error modal -->
+<div style="background-color: rgba(255, 255, 255, 0.5)" class="modal fade" id="caseerror" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 style="color: #fff" class="modal-title" id="myModalLabel">Sorry</h3>
+            </div>
+            <div class="modal-body">
+                <p style="color: #fff" class="lead">Something Went Wrong</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- users follow me modal -->
+<div style="background-color: rgba(255, 255, 255, 0.5)" class="modal fade" id="followingmeusers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 style="color: #fff" class="modal-title" id="myModalLabel">Users Following You</h3>
+            </div>
+            <div class="modal-body">
+                <div ng-repeat="user in followingme" style="background: rgba(0,0,0,0.7)">
+                    <div class="info-box bg-aqua">
+                      <span class="info-box-icon"><img ng-src={{user.ImgURL}} class="img-responsive" style="height: 100%"></span>
+                      <div class="info-box-content">
+                        <span class="info-box-text">Name: {{user.Name}}</span>
+                      </div>
+                      <!-- /.info-box-content -->
+                    <div ng-if= "!searchresult.IsOwner || !searchresult.IsJoined">
+                        <button type="button" style="margin-bottom: 10px" class="btn btn-info" ng-click="visituser(user.FollowID)">Details</button>
+                    </div>
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- unfollow modal -->
+<div style="background-color: rgba(255, 255, 255, 0.5)" class="modal fade" id="unfollowconfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 style="color: #fff" class="modal-title" id="myModalLabel">Unfollow</h3>
+            </div>
+            <div class="modal-body">
+                <p style="color: #f00" class="lead">Are You Sure You Want To Unfollow This User</p>
+                <button type="button" style="margin-bottom: 10px" class="btn btn-danger" ng-click="unfollow()">Unfollow</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- users i follow modal -->
+<div style="background-color: rgba(255, 255, 255, 0.5)" class="modal fade" id="mefollowingusers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 style="color: #fff" class="modal-title" id="myModalLabel">Users You Follow</h3>
+            </div>
+            <div class="modal-body">
+                <div ng-repeat="user in mefollowing" style="background: rgba(0,0,0,0.7)">
+                    <div class="info-box bg-aqua">
+                      <span class="info-box-icon"><img ng-src={{user.ImgURL}} class="img-responsive" style="height: 100%"></span>
+                      <div class="info-box-content">
+                        <span class="info-box-text">Name: {{user.Name}}</span>
+                      </div>
+                      <!-- /.info-box-content -->
+                    <div ng-if= "!searchresult.IsOwner || !searchresult.IsJoined">
+                        <button type="button" style="margin-bottom: 10px" class="btn btn-info" ng-click="visituser(user.FollowID)">Details</button>
+                        <button type="button" style="margin-bottom: 10px" class="btn btn-danger" ng-click="selectunfollow(user.FollowID)">Un-Follow</button>
+                    </div>
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

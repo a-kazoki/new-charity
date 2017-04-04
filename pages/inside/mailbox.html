@@ -1,0 +1,115 @@
+<!-- iCheck -->
+<link rel="stylesheet" href="plugins/iCheck/flat/blue.css">
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Mailbox
+        <small>13 new messages</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href=""><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Mailbox</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content" style="min-height: 500px">
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="nav">
+                <li class="active"><a href="" class="btn btn-primary btn-block margin-bottom" data-target="#compose" data-toggle="tab">Compose</a></li>
+                <!-- due to conflict between bootstrap and angular inbox hidden and called from mail controller-->
+                <li style="visibility: hidden"><a href="" data-target="#inbox" data-toggle="tab"></a></li>
+            </ul>
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Inbox</h3>
+                    <div class="box-tools">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <div class="box-body no-padding">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li ng-repeat="mail in inboxmessages">
+                            <div ng-click= "readmail(mail.ThreadID, mail.Date)" style= "padding: 10px 15px; cursor: pointer">
+                                <a style="color: #080" ng-if=!mail.IsSeen>
+                                    <i class="fa fa-inbox"></i>
+                                    {{mail.Name}}<br>
+                                    <span class="label label-danger" ng-if=!mail.IsMine style="max-width: 60%; overflow: hidden; display: block; white-space: nowrap; text-overflow: ellipsis">{{mail.MSGBoody}}</span>
+                                    <span class="label label-primary pull-right" ng-if=mail.IsMine style="max-width: 60%; overflow: hidden; display: block; white-space: nowrap; text-overflow: ellipsis">{{mail.MSGBoody}}</span>
+                                </a>
+                                <a ng-if=mail.IsSeen>
+                                    <i class="fa fa-inbox"></i>
+                                    {{mail.Name}}<br>
+                                    <span class="label label-danger" ng-if=!mail.IsMine style="max-width: 60%; overflow: hidden; display: block; white-space: nowrap; text-overflow: ellipsis">{{mail.MSGBoody}}</span>
+                                    <span class="label label-primary pull-right" ng-if=mail.IsMine style="max-width: 60%; overflow: hidden; display: block; white-space: nowrap; text-overflow: ellipsis">{{mail.MSGBoody}}</span>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /. box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-9 tab-content">
+            <div class="box box-primary tab-pane fade in active" role="tabpanel" id="compose">
+                <div class="box-header with-border">
+                    <h3 class="box-title">compose</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body no-padding">
+                    <div class="mailbox-read-info">
+                        <h5>to: help@example.com</h5>
+                    </div>
+                    <!-- /.mailbox-read-info -->
+                    <div class="mailbox-read-message">
+                        hi backj<br>
+                        hi backj<br>
+                        hi backj<br>
+                        hi backj<br>
+                        hi backj<br>
+                        hi backj<br>
+                        hi backj<br>
+                        hi backj<br>
+                        hi backj<br>
+                    </div>
+                    <!-- /.mailbox-read-message -->
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-default"><i class="fa fa-reply"></i> Reply</button>
+                    </div>
+                </div>
+                <!-- /.box-footer -->
+            </div>
+            <div class="box box-primary tab-pane fade active" role="tabpanel" id="inbox">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Read Mail</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body no-padding">
+                    <div class="mailbox-read-info">
+                        <h5>From: {{restofmsgs.UserName}}</h5>
+                    </div>
+                    <!-- /.mailbox-read-info -->
+                    <div class="mailbox-read-message">
+                        hi
+                    </div>
+                    <!-- /.mailbox-read-message -->
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-default"><i class="fa fa-reply"></i> Reply</button>
+                    </div>
+                </div>
+                <!-- /.box-footer -->
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
